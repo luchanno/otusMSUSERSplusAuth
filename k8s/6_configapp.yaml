@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: java-app-config
+  namespace: msusers-ns
+data:
+  application.properties: |
+    spring.datasource.url=jdbc:postgresql://postgres:5432/users_db
+    spring.datasource.username=${DB_USERNAME}
+    spring.datasource.password=${DB_PASSWORD}
+    spring.sql.init.mode=always
+    # Logging
+    #logging.config=classpath:logback-spring.xml
+    logging.level.org.springframework=INFO
+    # logging.level.org.springframework.web=DEBUG
+    # logging.level.org.springframework.context.annotation=TRACE
+
