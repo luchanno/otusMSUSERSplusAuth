@@ -3,19 +3,62 @@ kind: Deployment
 metadata:
   name: java-app
   namespace: msusers-ns
+  labels:
+    app: java-app
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: java-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate 
+  progressDeadlineSeconds: 300
+  revisionHistoryLimit: 5    
   template:
     metadata:
+      name: java-app
       labels:
         app: java-app
     spec:
       containers:
-      - name: java-app-container
-        image: alex197612/msusers:v1.0
+      - name: java-app
+        image: alex197612/msusers:v1.2.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http-container
+          protocol: TCP
+        - containerPort: 9009
+          name: metrics
+          protocol: TCP
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+#        livenessProbe:
+#          httpGet:
+#            path: "/actuator/health/liveness"
+#            port: "metrics"
+#          initialDelaySeconds: 600
+#          failureThreshold: 3
+#          periodSeconds: 10
+#        readinessProbe:
+#          httpGet:
+#            path: "/actuator/health/readiness"
+#            port: "metrics"
+#          initialDelaySeconds: 600
+#          failureThreshold: 3
+#          periodSeconds: 10
+#        lifecycle:
+#          preStop:
+#            exec:
+#              command: ["sh", "-c", "sleep 10"]
         env:
             - name: DB_USERNAME
               valueFrom:
@@ -27,15 +70,6 @@ spec:
                   secretKeyRef:
                     name: postgre-cred
                     key: password
-        resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
-        ports:
-        - containerPort: 8080
         volumeMounts:
         - name: java-app-config
           mountPath: "/opt/config"

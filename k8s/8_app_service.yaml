@@ -1,13 +1,21 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-app-service
+  name: java-app
   namespace: msusers-ns
+  labels:
+    app: java-app
 spec:
   selector:
     app: java-app
   type: ClusterIP
   ports:
   - protocol: TCP
+    name: http-service
     port: 80
-    targetPort: 8080
+    targetPort: http-container
+  - protocol: TCP
+    name: metrics
+    port: 9009
+    targetPort: metrics
+    
