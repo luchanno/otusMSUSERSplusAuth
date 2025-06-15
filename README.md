@@ -1,4 +1,4 @@
-!(./images/auth.png)
+![auth.png](./images/auth.png)
 
 # Установка
 ## 1) Установить в k8s ingress-nginx (опционально, если отсутствует)
