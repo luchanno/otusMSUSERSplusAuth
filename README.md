@@ -1,3 +1,5 @@
+!(./images/auth.png)
+
 # Установка
 ## 1) Установить в k8s ingress-nginx (опционально, если отсутствует)
 ```kubectl create namespace m && helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/ && helm repo update && helm install nginx ingress-nginx/ingress-nginx --namespace m -f nginx/0_OPT_nginx_ingress-25239-20146a.yaml```
