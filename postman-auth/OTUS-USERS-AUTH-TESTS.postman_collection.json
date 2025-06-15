@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "433f3794-f60e-4a34-b74b-9fec37c56c20",
+		"name": "OTUS-USERS-AUTH-TESTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20628036",
+		"_collection_link": "https://www.postman.com/alexkorkhov/workspace/public/collection/20628036-433f3794-f60e-4a34-b74b-9fec37c56c20?action=share&source=collection_link&creator=20628036"
+	},
+	"item": [
+		{
+			"name": "1. Register Admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"username1\", pm.variables.replaceIn('{{$randomUserName}}'))\r",
+							"pm.collectionVariables.set(\"username2\", pm.variables.replaceIn('{{$randomUserName}}'))\r",
+							"pm.collectionVariables.set(\"admin\", pm.variables.replaceIn('{{$randomUserName}}'))"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{admin}}\",\r\n    \"password\": \"123\",\r\n    \"email\": \"ivanov@mail.ru\",\r\n    \"first_name\": \"Fedor\",\r\n    \"last_name\": \"Ivanov\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "Регистрируем админа, он создаст данные о пользователях в основном сервисе. Сравнение пользователей в сервисе Auth и основном сервисе ведется по логину."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Login Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{admin}}\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Входим в систему под админом"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Create User 1 Data in App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{username1}}\",\r\n    \"firstName\": \"Fedor\",\r\n    \"lastName\": \"Ivanov\",\r\n    \"email\": \"ivanov@example.com\",\r\n    \"phone\": \"11111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": "Создаем данные для первого пользователя в основном сервисе"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Create User 2 Data in App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{username2}}\",\r\n    \"firstName\": \"Mariya\",\r\n    \"lastName\": \"Petrova\",\r\n    \"email\": \"petrova@example.com\",\r\n    \"phone\": \"22222\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": "Создаем данные для второго пользователя в основном сервисе"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Logout Admin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"isidorov2\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"logout"
+					]
+				},
+				"description": "Разлогиниваемся"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Register User 1 Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username1}}\",\r\n    \"password\": \"123\",\r\n    \"email\": \"ivanov@mail.ru\",\r\n    \"first_name\": \"Fedor\",\r\n    \"last_name\": \"Ivanov\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "Регистрируем первого пользователя в Auth"
+			},
+			"response": []
+		},
+		{
+			"name": "7. GET USER NO AUTH",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Пытаемся получить данные без логина"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Login User 1 Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username1}}\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Входим в систему под первым пользователем"
+			},
+			"response": []
+		},
+		{
+			"name": "8-5. GET USER 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Получаем данные первого пользователя (до изменения)"
+			},
+			"response": []
+		},
+		{
+			"name": "9. PUT USER 1 Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Fedor\",\r\n    \"lastName\": \"Ivanov\",\r\n    \"email\": \"ivanov@example.com\",\r\n    \"phone\": \"33333\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Изменяем данные первого пользователя (телефон)"
+			},
+			"response": []
+		},
+		{
+			"name": "10. GET USER 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Получаем данные первого пользователя (после изменения)"
+			},
+			"response": []
+		},
+		{
+			"name": "11. Logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"isidorov2\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"logout"
+					]
+				},
+				"description": "Разлогиниваемся"
+			},
+			"response": []
+		},
+		{
+			"name": "12. Register User 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username2}}\",\r\n    \"password\": \"123\",\r\n    \"email\": \"petrova@mail.ru\",\r\n    \"first_name\": \"Mariya\",\r\n    \"last_name\": \"Petrova\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "Регистрируем второго пользователя в Auth"
+			},
+			"response": []
+		},
+		{
+			"name": "13. Login User 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username2}}\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Входим в систему под вторым пользователем"
+			},
+			"response": []
+		},
+		{
+			"name": "14. GET USER 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Получаем данные второго пользователя (до изменения)"
+			},
+			"response": []
+		},
+		{
+			"name": "15. PUT USER 2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Maria\",\r\n    \"lastName\": \"Petrova\",\r\n    \"email\": \"petrova@example.com\",\r\n    \"phone\": \"44444\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Изменяем данные второго пользователя (телефон)"
+			},
+			"response": []
+		},
+		{
+			"name": "15-5. GET USER 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/user/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"me"
+					]
+				},
+				"description": "Получаем данные второго пользователя (после изменения)"
+			},
+			"response": []
+		},
+		{
+			"name": "16. Logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"isidorov2\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"logout"
+					]
+				},
+				"description": "Разлогиниваемся"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username1",
+			"value": "Cara78",
+			"type": "string"
+		},
+		{
+			"key": "username2",
+			"value": "Aisha.Abbott60",
+			"type": "string"
+		},
+		{
+			"key": "admin",
+			"value": "Missouri69",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "arch.homework",
+			"type": "string"
+		}
+	]
+}
